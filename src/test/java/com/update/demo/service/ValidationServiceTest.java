@@ -20,7 +20,8 @@ class ValidationServiceTest {
         LocalDate arrivalDate = LocalDate.now();
         LocalDate departureDate = arrivalDate.plusDays(3);
         ReservationRequest reservationRequest = new ReservationRequest(email, firstName, surName, arrivalDate, departureDate);
-        assertThatCode(() -> validationService.validateRequest(reservationRequest)).isInstanceOf(ResponseStatusException.class);
+        assertThatCode(() -> validationService.validateRequest(reservationRequest)).isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Booking should be at least a day after today");
     }
 
     @Test
@@ -31,7 +32,8 @@ class ValidationServiceTest {
         LocalDate arrivalDate = LocalDate.now().plusDays(30);
         LocalDate departureDate = arrivalDate.plusMonths(1);
         ReservationRequest reservationRequest = new ReservationRequest(email, firstName, surName, arrivalDate, departureDate);
-        assertThatCode(() -> validationService.validateRequest(reservationRequest)).isInstanceOf(ResponseStatusException.class);
+        assertThatCode(() -> validationService.validateRequest(reservationRequest)).isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Booking should be at no more than one month away");
     }
 
     @Test
@@ -42,7 +44,8 @@ class ValidationServiceTest {
         LocalDate arrivalDate = LocalDate.now().plusDays(10);
         LocalDate departureDate = arrivalDate.plusDays(5);
         ReservationRequest reservationRequest = new ReservationRequest(email, firstName, surName, arrivalDate, departureDate);
-        assertThatCode(() -> validationService.validateRequest(reservationRequest)).isInstanceOf(ResponseStatusException.class);
+        assertThatCode(() -> validationService.validateRequest(reservationRequest)).isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Booking duration should ne no more than three days");
     }
 
     @Test

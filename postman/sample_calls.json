@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "39616190-be0a-4770-8073-0488ded6b7c5",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Bookings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/availabilities?arrivalDate=2022-10-04&departureDate=2022-10-06",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"availabilities"
+					],
+					"query": [
+						{
+							"key": "arrivalDate",
+							"value": "2022-10-04"
+						},
+						{
+							"key": "departureDate",
+							"value": "2022-10-06"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create booking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"test@test\",\r\n\"firstName\": \"firstName\",\r\n\"surName\": \"surName\",\r\n\"arrivalDate\": \"2022-10-04\",\r\n\"departureDate\": \"2022-10-05\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update booking",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"test@test\",\r\n\"firstName\": \"firstName\",\r\n\"surName\": \"surName\",\r\n\"arrivalDate\": \"2022-10-07\",\r\n\"departureDate\": \"2022-10-09\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete booking",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"test@test\",\r\n\"firstName\": \"firstName\",\r\n\"surName\": \"surName\",\r\n\"arrivalDate\": null,\r\n\"departureDate\": null\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/bookings/test",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bookings",
+						"test"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
