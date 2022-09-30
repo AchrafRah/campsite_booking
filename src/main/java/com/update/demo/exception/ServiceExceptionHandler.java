@@ -1,19 +1,18 @@
 package com.update.demo.exception;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ServiceExceptionHandler extends ResponseEntityExceptionHandler {
+public class ServiceExceptionHandler {
+    Logger logger = LoggerFactory.getLogger(ServiceExceptionHandler.class);
 
     @ExceptionHandler(value = {Exception.class})
-    protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "An unknown exception has happened";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    protected ResponseEntity<Object> handleException(Exception ex) {
+        logger.error("An Error has occurred, ", ex);
+        return ResponseEntity.internalServerError().body(ex.getMessage());
     }
 }

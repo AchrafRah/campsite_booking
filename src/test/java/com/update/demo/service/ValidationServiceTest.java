@@ -7,7 +7,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationServiceTest {
     private ValidationService validationService = new ValidationService();

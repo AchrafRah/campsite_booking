@@ -2,12 +2,11 @@ package com.update.demo.service;
 
 import com.update.demo.model.Availability;
 import com.update.demo.model.ReservationRequest;
-import com.update.demo.utils.DataCreateutil;
+import com.update.demo.utils.DataCreateUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,7 +29,7 @@ class BookingServiceTest {
 
     @Test
     void testReservation() {
-        String reservation = bookingService.createReservation(DataCreateutil.createReservationRequest());
+        String reservation = bookingService.createReservation(DataCreateUtil.createReservationRequest());
         List<Availability> availabilities = bookingService.getAvailabilities(null, null);
         long availabilitiesCount = availabilities.stream().filter(Availability::isAvailable).count();
         assertThat(availabilitiesCount).isEqualTo(26);
@@ -49,10 +48,10 @@ class BookingServiceTest {
         String surName = "surname";
         LocalDate arrivalDate = LocalDate.now().plusDays(2);
         LocalDate departureDate = arrivalDate.plusDays(3);
-        ReservationRequest reservationRequest =  new ReservationRequest(email, firstName, surName, arrivalDate, departureDate);
+        ReservationRequest reservationRequest = new ReservationRequest(email, firstName, surName, arrivalDate, departureDate);
         String reservation = bookingService.createReservation(reservationRequest);
 
-        ReservationRequest newReservationReq  = new ReservationRequest(email, firstName, surName, arrivalDate.plusDays(1), departureDate);
+        ReservationRequest newReservationReq = new ReservationRequest(email, firstName, surName, arrivalDate.plusDays(1), departureDate);
         assertThatCode(() -> bookingService.updateReservation(reservation, newReservationReq)).doesNotThrowAnyException();
         assertThatCode(() -> bookingService.deleteReservation(reservation)).doesNotThrowAnyException();
     }

@@ -4,7 +4,7 @@ import com.update.demo.model.ReservationRequest;
 
 import java.time.LocalDate;
 
-public class DataCreateutil {
+public class DataCreateUtil {
 
     public static ReservationRequest createReservationRequest() {
         String email = "testReservation";

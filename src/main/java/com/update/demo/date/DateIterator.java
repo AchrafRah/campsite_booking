@@ -16,7 +16,7 @@ public class DateIterator implements Iterable<LocalDate> {
     }
 
     public Stream<LocalDate> stream() {
-        return Stream.iterate(startDate, d -> d.plusDays(1))
+        return Stream.iterate(startDate, date -> date.plusDays(1))
                 .limit(ChronoUnit.DAYS.between(startDate, endDate) + 1);
     }
 
