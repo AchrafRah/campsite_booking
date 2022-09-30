@@ -18,20 +18,20 @@ public class ValidationService {
         LocalDate now = LocalDate.now();
         LocalDate arrivalDate = reservationRequest.getArrivalDate();
         LocalDate departureDate = reservationRequest.getDepartureDate();
-        boolean minDays = Period.between(now, arrivalDate).getDays() >= 1;
-        boolean maxDays = Period.between(departureDate, now).getMonths() <= 1;
-        boolean noMoreThanThreeDays = Period.between(arrivalDate, departureDate).getDays() <= 3;
+        boolean minDays = Period.between(now, arrivalDate).getDays() < 1;
+        boolean maxDays = Period.between(departureDate, now).getMonths() > 1;
+        boolean noMoreThanThreeDays = Period.between(arrivalDate, departureDate).getDays() > 3;
 
-        if (!minDays || !maxDays || !noMoreThanThreeDays) {
+        if (minDays || maxDays || noMoreThanThreeDays) {
 
-            String errorText = "Arguments supplied are incorrect";
-            if (!minDays){
+            String errorText = "";
+            if (minDays) {
                 errorText += MIN_DAYS_NOT_RESPECTED;
             }
-            if (!maxDays){
+            if (maxDays) {
                 errorText += MAX_DAYS_NOT_RESPECTED;
             }
-            if (!noMoreThanThreeDays){
+            if (noMoreThanThreeDays) {
                 errorText += MAX_STAY_NOT_RESPECTED;
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errorText);

@@ -22,8 +22,8 @@ public class ReservationController {
     }
 
     @GetMapping(path = "/availabilities", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Availability>> getAvailabilities(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam (value = "arrivalDate", required = false) LocalDate arrivalDate,
-                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam (value = "departureDate", required = false)  LocalDate departureDate) {
+    public ResponseEntity<List<Availability>> getAvailabilities(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "arrivalDate", required = false) LocalDate arrivalDate,
+                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam(value = "departureDate", required = false) LocalDate departureDate) {
         return ResponseEntity.ok(bookingService.getAvailabilities(arrivalDate, departureDate));
     }
 

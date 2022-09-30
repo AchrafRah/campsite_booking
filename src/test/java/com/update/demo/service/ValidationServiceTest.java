@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationServiceTest {
-    ValidationService validationService = new ValidationService();
+    private ValidationService validationService = new ValidationService();
 
     @Test
     void testInvalidReservationOnSameDay() {

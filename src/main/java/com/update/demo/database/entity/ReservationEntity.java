@@ -18,7 +18,7 @@ public class ReservationEntity implements Serializable {
 
     private boolean isActive;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL )
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CampsiteBookingEntity> campsiteBooking;
 
     @CreationTimestamp
