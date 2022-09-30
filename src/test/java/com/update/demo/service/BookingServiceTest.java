@@ -22,7 +22,7 @@ class BookingServiceTest {
 
     @Test
     void testGetDefaultAvailabilities() {
-        List<Availability> availabilities = bookingService.getAvailabilities(null, null);
+        List<Availability> availabilities = bookingService.getBookings(null, null);
         long availabilitiesCount = availabilities.stream().filter(Availability::isAvailable).count();
         assertThat(availabilitiesCount).isEqualTo(30);
     }
@@ -30,7 +30,7 @@ class BookingServiceTest {
     @Test
     void testReservation() {
         String reservation = bookingService.createReservation(DataCreateUtil.createReservationRequest());
-        List<Availability> availabilities = bookingService.getAvailabilities(null, null);
+        List<Availability> availabilities = bookingService.getBookings(null, null);
         long availabilitiesCount = availabilities.stream().filter(Availability::isAvailable).count();
         assertThat(availabilitiesCount).isEqualTo(26);
         assertThatCode(() -> bookingService.deleteReservation(reservation)).doesNotThrowAnyException();

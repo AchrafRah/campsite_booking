@@ -5,18 +5,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.update.challenge</groupId>
+    <groupId>com.update.demo</groupId>
     <artifactId>campsite_booking</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>campsite_booking</name>
     <description>Campsite Booking REST app</description>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <java.version>11</java.version>
         <assertj-core.version>3.23.1</assertj-core.version>
     </properties>

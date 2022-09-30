@@ -18,7 +18,7 @@ public class ValidationService {
         LocalDate now = LocalDate.now();
         LocalDate arrivalDate = reservationRequest.getArrivalDate();
         LocalDate departureDate = reservationRequest.getDepartureDate();
-        boolean minDays = Period.between(now, arrivalDate).getDays() < 1 &&  Period.between(departureDate, now).getMonths() == 0;
+        boolean minDays = Period.between(now, arrivalDate).getDays() < 1 && Period.between(now, departureDate).getMonths() == 0;
         boolean maxDays = Period.between(now, departureDate).getMonths() > 1;
         boolean noMoreThanThreeDays = Period.between(arrivalDate, departureDate).getDays() > 3;
 

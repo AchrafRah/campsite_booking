@@ -30,7 +30,26 @@ public class BookingService {
         this.validationService = validationService;
     }
 
-    public List<Availability> getAvailabilities(LocalDate arrivalDate, LocalDate departureDate) {
+    /**
+     * Method to get all available bookings
+     *
+     * @param arrivalDate   arrival date, can be null
+     * @param departureDate departure date, can be null
+     * @return a list of available bookings for the time range
+     */
+    public List<Availability> getAvailableBookings(LocalDate arrivalDate, LocalDate departureDate) {
+        return getBookings(arrivalDate, departureDate).stream().filter(Availability::isAvailable).collect(Collectors.toList());
+    }
+
+
+    /**
+     * Method to get all  bookings
+     *
+     * @param arrivalDate   arrival date, can be null
+     * @param departureDate departure date, can be null
+     * @return a list of all bookings for the time range
+     */
+    public List<Availability> getBookings(LocalDate arrivalDate, LocalDate departureDate) {
         if (arrivalDate == null) {
             arrivalDate = LocalDate.now().plusDays(1L);
         }
@@ -42,13 +61,18 @@ public class BookingService {
         DateIterator dateIterator = new DateIterator(arrivalDate, departureDate);
         return dateIterator.stream().map(currentDate -> new Availability(currentDate, !reservedDates.contains(currentDate)))
                 .collect(Collectors.toList());
-
     }
 
+    /**
+     * Method to create a reservation
+     *
+     * @param reservationRequest reservation request parameters
+     * @return a unique identifier for the reservation
+     */
     @Transactional
     public String createReservation(ReservationRequest reservationRequest) {
         validationService.validateRequest(reservationRequest);
-        List<Availability> availabilities = getAvailabilities(reservationRequest.getArrivalDate(), reservationRequest.getDepartureDate());
+        List<Availability> availabilities = getBookings(reservationRequest.getArrivalDate(), reservationRequest.getDepartureDate());
         boolean isNotAvailableDuringPeriod = availabilities.stream().anyMatch(s -> !s.isAvailable());
         if (isNotAvailableDuringPeriod) {
             throw new ResponseStatusException(
@@ -64,29 +88,44 @@ public class BookingService {
             return campsiteBookingEntity;
         }).map(campsiteBookingRepository::save).collect(Collectors.toList());
 
-        ReservationEntity entity = new ReservationEntity();
-        entity.setCampsiteBooking(campsiteBookingEntities);
-        entity.setEmail(reservationRequest.getEmail());
-        entity.setSurName(reservationRequest.getSurName());
-        entity.setFirstName(reservationRequest.getFirstName());
-        entity.setActive(true);
-        ReservationEntity reservationEntity = reservationRepository.save(entity);
+        ReservationEntity reservation = new ReservationEntity();
+        reservation.setCampsiteBooking(campsiteBookingEntities);
+        ReservationEntity reservationEntity = saveReservation(reservationRequest, reservation);
         return String.valueOf(reservationEntity.getId());
     }
 
+    /**
+     * Method to delete a reservation
+     *
+     * @param requestId the reservation identifier
+     */
     @Transactional
     public void deleteReservation(String requestId) {
-        reservationRepository.deleteById(Long.valueOf(requestId));
+        ReservationEntity reservationEntity = getReservationEntity(requestId);
+        reservationEntity.getCampsiteBooking().forEach(campsiteBookingRepository::delete);
+        reservationEntity.setActive(false);
+        reservationRepository.save(reservationEntity);
     }
 
+    /**
+     * Method to update a reservation
+     *
+     * @param requestId          the reservation identifier
+     * @param reservationRequest the new reservation request
+     */
     @Transactional
     public String updateReservation(String requestId, ReservationRequest reservationRequest) {
         validationService.validateRequest(reservationRequest);
+        ReservationEntity reservationEntity = getReservationEntity(requestId);
+
+        return update(reservationRequest, reservationEntity);
+    }
+
+    private ReservationEntity getReservationEntity(String requestId) {
         Optional<ReservationEntity> reservation = reservationRepository.findById(Long.valueOf(requestId));
         ReservationEntity reservationEntity = reservation.orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "This booking id was not found: " + requestId));
-
-        return update(reservationRequest, reservationEntity);
+        return reservationEntity;
     }
 
     private String update(ReservationRequest reservationRequest, ReservationEntity reservationEntity) {
@@ -113,8 +152,18 @@ public class BookingService {
         bookingsToDelete.stream().forEach(campsiteBookingRepository::delete);
 
         reservationEntity.setCampsiteBooking(campsiteBookingEntities);
-        reservationEntity.setActive(true);
-        ReservationEntity savedEntity = reservationRepository.save(reservationEntity);
+
+        ReservationEntity savedEntity = saveReservation(reservationRequest, reservationEntity);
         return String.valueOf(savedEntity.getId());
     }
+
+
+    private ReservationEntity saveReservation(ReservationRequest reservationRequest, ReservationEntity reservationEntity) {
+        reservationEntity.setEmail(reservationRequest.getEmail());
+        reservationEntity.setSurName(reservationRequest.getSurName());
+        reservationEntity.setFirstName(reservationRequest.getFirstName());
+        reservationEntity.setActive(true);
+        return reservationRepository.save(reservationEntity);
+    }
+
 }
