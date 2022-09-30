@@ -6,11 +6,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
-    <groupId>com.update.demo</groupId>
+    <groupId>com.achraf.demo</groupId>
     <artifactId>campsite_booking</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version>
     <name>campsite_booking</name>
     <description>Campsite Booking REST app</description>
 
@@ -19,6 +19,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <java.version>11</java.version>
         <assertj-core.version>3.23.1</assertj-core.version>
+        <springdoc-openapi-ui.version>1.6.11</springdoc-openapi-ui.version>
+        <springdoc-openapi-webflux-ui.version>1.6.4</springdoc-openapi-webflux-ui.version>
     </properties>
 
     <dependencies>
@@ -42,7 +44,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-openapi-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <version>${springdoc-openapi-webflux-ui.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -62,23 +73,6 @@
 
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
     <repositories>
         <repository>
             <id>spring-milestones</id>
